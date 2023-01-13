@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link rel="icon" type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAEtJREFUOE9jZGBg+M9AAWAEGZCZmYnViOnTp4PFby1VwCqvFv2AYdQAaoUBBbEIiQWKDTA6a4TVjHPG58Di+OTBLhg1gAphQEk0AgC8jVgBalA6igAAAABJRU5ErkJggg==">
+		<title>3-Letter Wordle</title>
+		<script>
+			var playwords = [
+				"aah", "aal", "aas", "aba", "abs", "aby", "ace", "act", "add", "ado", "ads", "adz", "aff", "aft", "aga", "age", "ago", "ags", "aha", "ahi", "ahs", "aid", "ail", "aim", "ain", "air", "ais", "ait", "aji", "ala", "alb", "ale", "all", "alp", "als", "alt", "ama", "ami", "amp", "amu", "ana", "and", "ane", "ani", "ant", "any", "ape", "apo", "app", "apt", "arb", "arc", "are", "arf", "ark", "arm", "ars", "art", "ash", "ask", "asp", "ass", "ate", "att", "auk", "ava", "ave", "avo", "awa", "awe", "awl", "awn", "axe", "aye", "ays", "azo",
+				"baa", "bad", "bag", "bah", "bal", "bam", "ban", "bap", "bar", "bas", "bat", "bay", "bed", "bee", "beg", "bel", "ben", "bes", "bet", "bey", "bib", "bid", "big", "bin", "bio", "bis", "bit", "biz", "boa", "bob", "bod", "bog", "boo", "bop", "bos", "bot", "bow", "box", "boy", "bra", "bro", "brr", "bub", "bud", "bug", "bum", "bun", "bur", "bus", "but", "buy", "bye", "bys",
+				"cab", "cad", "caf", "cam", "can", "cap", "car", "cat", "caw", "cay", "cee", "cel", "cep", "chi", "cig", "cis", "cob", "cod", "cog", "col", "con", "coo", "cop", "cor", "cos", "cot", "cow", "cox", "coy", "coz", "cru", "cry", "cub", "cud", "cue", "cum", "cup", "cur", "cut", "cuz", "cwm",
+				"dab", "dad", "dag", "dah", "dak", "dal", "dam", "dan", "dap", "das", "daw", "day", "deb", "dee", "def", "del", "den", "dep", "dev", "dew", "dex", "dey", "dib", "did", "die", "dif", "dig", "dim", "din", "dip", "dis", "dit", "doc", "doe", "dog", "doh", "dol", "dom", "don", "dor", "dos", "dot", "dow", "dry", "dub", "dud", "due", "dug", "duh", "dui", "dum", "dun", "duo", "dup", "dye",
+				"ear", "eat", "eau", "ebb", "eco", "ecu", "edh", "eds", "eek", "eel", "eew", "eff", "efs", "eft", "egg", "ego", "eke", "eld", "elf", "elk", "ell", "elm", "els", "eme", "emo", "ems", "emu", "end", "eng", "ens", "eon", "era", "ere", "erg", "ern", "err", "ers", "ess", "est", "eta", "eth", "eve", "ewe", "eye",
+				"fab", "fad", "fah", "fan", "far", "fas", "fat", "fax", "fay", "fed", "fee", "feh", "fem", "fen", "fer", "fes", "fet", "feu", "few", "fey", "fez", "fib", "fid", "fie", "fig", "fil", "fin", "fir", "fit", "fix", "fiz", "flu", "fly", "fob", "foe", "fog", "foh", "fon", "foo", "fop", "for", "fou", "fox", "foy", "fro", "fry", "fub", "fud", "fug", "fun", "fur",
+				"gab", "gad", "gae", "gag", "gal", "gam", "gan", "gap", "gar", "gas", "gat", "gay", "ged", "gee", "gel", "gem", "gen", "get", "gey", "ghi", "gib", "gid", "gie", "gif", "gig", "gin", "gip", "gis", "git", "gnu", "goa", "gob", "god", "goo", "gor", "gos", "got", "gox", "grr", "gul", "gum", "gun", "gut", "guv", "guy", "gym", "gyp",
+				"had", "hae", "hag", "hah", "haj", "ham", "hao", "hap", "has", "hat", "haw", "hay", "heh", "hem", "hen", "hep", "her", "hes", "het", "hew", "hex", "hey", "hic", "hid", "hie", "him", "hin", "hip", "his", "hit", "hmm", "hob", "hod", "hoe", "hog", "hom", "hon", "hoo", "hop", "hot", "how", "hoy", "hub", "hue", "hug", "huh", "hum", "hun", "hup", "hut", "hyp",
+				"ice", "ich", "ick", "icy", "ids", "iff", "ifs", "igg", "ilk", "ill", "imp", "ink", "inn", "ins", "ion", "ire", "irk", "ism", "its", "ivy",
+				"jab", "jag", "jam", "jar", "jaw", "jay", "jee", "jet", "jeu", "jib", "jig", "jin", "job", "joe", "jog", "jot", "jow", "joy", "jug", "jun", "jus", "jut",
+				"kab", "kae", "kaf", "kas", "kat", "kay", "kea", "kef", "keg", "ken", "kep", "kex", "key", "khi", "kid", "kif", "kin", "kip", "kir", "kis", "kit", "koa", "kob", "koi", "kop", "kor", "kos", "kue", "kye",
+				"lab", "lac", "lad", "lag", "lah", "lam", "lap", "lar", "las", "lat", "lav", "law", "lax", "lay", "lea", "led", "lee", "leg", "lei", "lek", "let", "leu", "lev", "lex", "ley", "lib", "lid", "lie", "lin", "lip", "lis", "lit", "lob", "log", "loo", "lop", "lot", "low", "lox", "lud", "lug", "lum", "lun", "luv", "lux", "lye",
+				"mac", "mad", "mae", "mag", "mam", "man", "map", "mar", "mas", "mat", "maw", "max", "may", "med", "meg", "meh", "mel", "mem", "men", "met", "mew", "mho", "mib", "mic", "mid", "mig", "mil", "mim", "mir", "mis", "mix", "mmm", "moa", "mob", "moc", "mod", "mog", "moi", "mol", "mom", "mon", "moo", "mop", "mor", "mos", "mot", "mow", "mud", "mug", "mum", "mun", "mus", "mut", "mux", "myc",
+				"nab", "nae", "nag", "nah", "nam", "nan", "nap", "nav", "naw", "nay", "neb", "nee", "neg", "net", "new", "nib", "nil", "nim", "nip", "nit", "nix", "nob", "nod", "nog", "noh", "nom", "noo", "nor", "nos", "not", "now", "nth", "nub", "nug", "nun", "nus", "nut",
+				"oaf", "oak", "oar", "oat", "oba", "obe", "obi", "oca", "och", "oda", "odd", "ode", "ods", "oes", "off", "oft", "ohm", "oho", "ohs", "oik", "oil", "oka", "oke", "old", "ole", "oma", "oms", "one", "ono", "ons", "oof", "ooh", "oot", "opa", "ope", "ops", "opt", "ora", "orb", "orc", "ore", "org", "ors", "ort", "ose", "oud", "our", "out", "ova", "owe", "owl", "own", "owt", "oxo", "oxy",
+				"pac", "pad", "pah", "pak", "pal", "pam", "pan", "pap", "par", "pas", "pat", "paw", "pax", "pay", "pea", "pec", "ped", "pee", "peg", "peh", "pen", "pep", "per", "pes", "pet", "pew", "phi", "pho", "pht", "pia", "pic", "pie", "pig", "pin", "pip", "pis", "pit", "piu", "pix", "ply", "pod", "poh", "poi", "pol", "pom", "poo", "pop", "pos", "pot", "pow", "pox", "pro", "pry", "psi", "pst", "pub", "pud", "pug", "pul", "pun", "pup", "pur", "pus", "put", "pya", "pye", "pyx",
+				"qat", "qis", "qua",
+				"rad", "rag", "rah", "rai", "raj", "ram", "ran", "rap", "ras", "rat", "raw", "rax", "ray", "reb", "rec", "red", "ree", "ref", "reg", "rei", "rem", "rep", "res", "ret", "rev", "rex", "rez", "rho", "ria", "rib", "rid", "rif", "rig", "rim", "rin", "rip", "rob", "roc", "rod", "roe", "rom", "roo", "rot", "row", "rub", "rue", "rug", "rum", "run", "rut", "rya", "rye", "ryu",
+				"sab", "sac", "sad", "sae", "sag", "sal", "san", "sap", "sat", "sau", "saw", "sax", "say", "sea", "sec", "see", "seg", "sei", "sel", "sen", "ser", "set", "sev", "sew", "sex", "sha", "she", "shh", "sho", "shy", "sib", "sic", "sig", "sim", "sin", "sip", "sir", "sis", "sit", "six", "ska", "ski", "sky", "sly", "sob", "soc", "sod", "soh", "sol", "som", "son", "sop", "sos", "sot", "sou", "sow", "sox", "soy", "spa", "spy", "sri", "sty", "sub", "sue", "suk", "sum", "sun", "sup", "suq", "sus", "syn",
+				"tab", "tad", "tae", "tag", "taj", "tam", "tan", "tao", "tap", "tar", "tas", "tat", "tau", "tav", "taw", "tax", "tea", "tec", "ted", "tee", "teg", "tel", "ten", "tes", "tet", "tew", "the", "tho", "thy", "tic", "tie", "til", "tin", "tip", "tis", "tit", "tix", "tiz", "tod", "toe", "tog", "tom", "ton", "too", "top", "tor", "tot", "tow", "toy", "try", "tsk", "tub", "tug", "tui", "tum", "tun", "tup", "tut", "tux", "twa", "two", "tye",
+				"udo", "ugh", "uke", "ulu", "umm", "ump", "ums", "uni", "uns", "upo", "ups", "urb", "urd", "urn", "urp", "use", "uta", "ute", "uts",
+				"vac", "van", "var", "vas", "vat", "vau", "vav", "vaw", "vee", "veg", "vet", "vex", "via", "vid", "vie", "vig", "vim", "vin", "vis", "voe", "vog", "vow", "vox", "vug", "vum",
+				"wab", "wad", "wae", "wag", "wan", "wap", "war", "was", "wat", "waw", "wax", "way", "web", "wed", "wee", "wen", "wet", "wha", "who", "why", "wig", "win", "wis", "wit", "wiz", "woe", "wok", "won", "woo", "wos", "wot", "wow", "wry", "wud", "wye", "wyn", 
+				"xis",
+				"yag", "yah", "yak", "yam", "yap", "yar", "yas", "yaw", "yay", "yea", "yeh", "yen", "yep", "yes", "yet", "yew", "yin", "yip", "yob", "yod", "yok", "yom", "yon", "you", "yow", "yuk", "yum", "yup",
+				"zag", "zap", "zas", "zax", "zed", "zee", "zek", "zen", "zep", "zig", "zin", "zip", "zit", "zoa", "zoo", "zuz", "zzz"
+			]
+			var currGuess = []
+			var response = ["Bravissimo!","Exellent!","Splendid!","Amazing!","Awesome!","Brava!","Great!","Well done!","Good job!","Nice!","Cool!","Cool!"]
+			var done = false
+			function start (daily) {
+				document.getElementById("beforeplay").style = "visibility: hidden; height: 0px;"
+				let totGuess = +document.getElementById("guessCount").value
+				let divfill = "<h1 style=\"visibility: hidden;\" id=\"alert\">Not in word list!</h1><table style=\"font-size: 2em; margin-left: auto; margin-right: auto;\">"
+				for (let i = 0; i < totGuess; i++) {
+					divfill += `<tr><td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 1">&nbsp;</td><td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 2">&nbsp;</td><td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 3">&nbsp;</td></tr>`
+				}
+				divfill += "</table>"
+				document.getElementById("playarea").innerHTML = divfill
+				document.getElementById("playarea").style = ""
+				let count = 0
+				let wordlist = `abs ace act ado ads age ago ail aim air amp and ant any ape app apt arc are ark arm art ash ask ate awe axe bad bag bam ban bar bat bay bed bee beg bet bib bid big bin bit bob bog bop bot bow box boy bro bud bug bum bun bus but buy bye cab cad can cap car cat caw chi cob cod cog con cop cot cow coy cry cub cue cup cur cut dab dad dam daw day den dew dex dib did die dig dim din dip doc doe dog dot dry dub dud due dug duo dye ear eat ebb eel egg ego elf elk elm emu eon era err eta eve ewe eye fab fad fan far fat fax fed fee few fey fez fib fig fin fir fit fix flu fly fob foe fog for fox fro fry fun fur gag gap gas gee gel gem gen get ghi gig gin git gnu gob goo got gum gun gut guy gym gyp had hag ham has hat hay hem hen hep her hex hid him hip his hit hoe hog hop hot how hue hug hum hut ice icy ill imp ink inn ion its ivy jab jam jar jaw jay jet jig jog jot joy jug jut keg kid kin kit koi lab lad lag lap law lax lay led leg lib lid lie lip lit lob log lop lot low lug lye mad mag man map mat maw max may med meg men met mho mic mid mil mix mob mod mol mom mop mow mud mug mum mux nab nag nan nap nay net new nil nim nip nix nod nor not now nub nun nut oaf oak oar oat obe odd ode off oft ohm oil old one ons opt orb orc ore our out owe owl own oxy pac pad pal pan par pat paw pay pea ped peg pen pep per pet phi pho pia pic pie pig pin pip pit pix ply pod poi pop pot pow pox pro pry psi pub pug pun pup put pyx rad rag ram ran rap rat raw rec red ref rep rex rho rib rid rig rim rip rob rod roe rot row rug rum run sac sad sag sap sat saw sax say sea see set sew she shy sib sic sin sip sis sit six ski sky sly sob sod sol son sop sow soy spa spy sty sub sue sum sun vac van vat vet vex via vid vow wad wag war was wax way web wed wet who why wig win wit woe won wow wry yak yam yap yaw yay yen yep yes yet yin yip you yum zap zen zip zit zoo`.split(' ')
+				let word
+				if (daily) {
+					let d = new Date();
+					word = wordlist[(((((d.getUTCFullYear()^0xF0000000^(d.getUTCDate()*77232917)^(0xFF000000^(d.getUTCMonth()*82589933)))+(0xFFFFFFFF^(74207281*d.getUTCDay())))>>16)^(((d.getUTCFullYear()^0xF0000000^(d.getUTCDate()*77232917)^(0xFF000000^(d.getUTCMonth()*82589933)))+(0xFFFFFFFF^(74207281*d.getUTCDay())))))%wordlist.length)]
+				} else {
+					word = wordlist[Math.floor(wordlist.length*Math.random())]
+				}
+				let hide
+				document.addEventListener("keydown", function(e){
+					if (!done) {
+						if (e.key == "Backspace") {
+							document.getElementById(`${count}, ${currGuess.length}`).innerHTML = "&nbsp;"
+							currGuess.pop()
+						} else if (e.key == "Enter") {
+							if (currGuess[0] + currGuess[1] + currGuess[2] == word) {
+								document.getElementById(`${count}, 1`).style = "width: 2em; border: 3px solid black; font-family: sans-serif; background-color: limegreen; color: white;"
+								document.getElementById(`${count}, 2`).style = "width: 2em; border: 3px solid black; font-family: sans-serif; background-color: limegreen; color: white;"
+								document.getElementById(`${count}, 3`).style = "width: 2em; border: 3px solid black; font-family: sans-serif; background-color: limegreen; color: white;"
+								// hehe line 69
+								document.getElementById("alert").innerHTML = response[count]
+								document.getElementById("alert").style = "color: black; font-weight: 400;"
+								done = true
+								clearTimeout(hide)
+							} else {
+								if (playwords.includes(currGuess[0] + currGuess[1] + currGuess[2])) {
+									let chars = {
+										arr: [],
+										len: 0
+									}
+									let colours = [0, 0, 0]
+									for (let i = 0; i < 3; i++) {
+										if (word.split('')[i] == currGuess[i]) {
+											colours[i] = 2
+										} else {
+											chars.arr.push(word.split('')[i])
+											chars.len++
+										}
+									}
+									for (let i = 0; i < 3; i++) {
+										if (colours[i] != 2) {
+											for (let j = 0; j < chars.len; j++) {
+												if (currGuess[i] == chars.arr[j]) {
+													chars.arr[j] = ''
+													colours[i] = 1
+													if (j == chars.len) {
+														chars.len--
+													}
+													break
+												}
+											}
+										}
+									}
+									for (let i = 0; i < 3; i++) {
+										switch (colours[i]) {
+											case 0:
+												document.getElementById(`${count}, ${i + 1}`).style = "width: 2em; border: 3px solid black; font-family: sans-serif; background-color: dimgrey; color: white;"
+												break
+											case 1:
+												document.getElementById(`${count}, ${i + 1}`).style = "width: 2em; border: 3px solid black; font-family: sans-serif; background-color: goldenrod; color: white;"
+												break
+											case 2:
+												document.getElementById(`${count}, ${i + 1}`).style = "width: 2em; border: 3px solid black; font-family: sans-serif; background-color: limegreen; color: white;"
+												break
+											default:
+												break
+										}
+									}
+									count += 1
+									currGuess = []
+								} else {
+									document.getElementById("alert").style = "color: red; font-weight: 400;"
+									hide = setTimeout(function(){
+										document.getElementById("alert").style = "visibility: hidden;"
+									}, 1000)
+								}
+							}
+							if (count >= totGuess) {
+								done = true
+								document.getElementById("alert").innerHTML = `Word was: ${word}`
+								document.getElementById("alert").style = "font-weight: 400;"
+							}
+						} else if (e.key.length == 1 && currGuess.length < 3 && e.key.match(/[A-Za-z]/)) {
+							currGuess.push(e.key.toLowerCase())
+							document.getElementById(`${count}, ${currGuess.length}`).innerHTML = e.key.toUpperCase()
+						}
+					}
+				})
+			}
+		</script>
+	</head>
+	<body style="margin-left: 0px; text-align: center; position: relative; left: 25vw; width: 50vw;">
+		<h1>THREE-LETTER WORDLE</h1>
+		<div id="beforeplay">
+			<p style="font-size: 1.25em;">
+				You know 5-letter Wordle, now get ready for 3-letter Wordle! This unofficial version of Wordle has only three letters in the word, making it simpler, but don't let that fool you! As you have less clues, it will still be somewhat difficult to guess the word.
+			</p>
+			<p style="font-size: 1.25em;">Guesses avaliable:&nbsp;<select style="font-size: 1.03em;" id="guessCount">
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+				<option value="10">10</option>
+				<option value="11">11</option>
+				<option value="12">12</option>
+			</select></p>
+			<button style="background-color: limegreen; font-size: 2em;" onclick="start(true)">&nbsp;Daily&nbsp;</button>
+			<button style="background-color: limegreen; font-size: 2em;" onclick="start(false)">&nbsp;Play!&nbsp;</button>
+		</div>
+		<div style="visibility: hidden;" id="playarea"></div>
+	</body>
+</html>
