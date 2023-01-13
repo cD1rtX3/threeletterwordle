@@ -51,7 +51,7 @@
 				let word
 				if (daily) {
 					let d = new Date();
-					word = wordlist[(((((d.getUTCFullYear()^0xF0000000^(d.getUTCDate()*77232917)^(0xFF000000^(d.getUTCMonth()*82589933)))+(0xFFFFFFFF^(74207281*d.getUTCDay())))>>16)^(((d.getUTCFullYear()^0xF0000000^(d.getUTCDate()*77232917)^(0xFF000000^(d.getUTCMonth()*82589933)))+(0xFFFFFFFF^(74207281*d.getUTCDay())))))%wordlist.length)]
+					word = wordlist[(((((((d.getUTCFullYear()^0xF0000000^(d.getUTCDate()*77232917)^(0xFF000000^(d.getUTCMonth()*82589933)))+(0xFFFFFFFF^(74207281*d.getUTCDay())))>>16)^(((d.getUTCFullYear()^0xF0000000^(d.getUTCDate()*77232917)^(0xFF000000^(d.getUTCMonth()*82589933)))+(0xFFFFFFFF^(74207281*d.getUTCDay())))))^(((d.getUTCFullYear%100)<<8)^0xA5A5))&0xFFFF)%wordlist.length)]
 				} else {
 					word = wordlist[Math.floor(wordlist.length*Math.random())]
 				}
