@@ -40,7 +40,7 @@
 				document.getElementById("beforeplay").style = "visibility: hidden; height: 0px;"
 				let totGuess = +document.getElementById("guessCount").value
 				let divfill = "<h1 style=\"visibility: hidden;\" id=\"alert\">Not in word list!</h1><table style=\"font-size: 2em; margin-left: auto; margin-right: auto;\">"
-				for (let i = 0; i < totGuess; i++) {
+				for (let i = 0; i < daily ? 6 : totGuess; i++) {
 					divfill += `<tr><td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 1">&nbsp;</td><td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 2">&nbsp;</td><td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 3">&nbsp;</td></tr>`
 				}
 				divfill += "</table>"
@@ -126,13 +126,24 @@
 							}
 							if (count >= totGuess) {
 								done = true
-								document.getElementById("alert").innerHTML = `Word was: ${word}`
+								document.getElementById("alert").innerHTML = `Word was: ${word}${daily ? "" : "; press Enter to start new"}`
 								document.getElementById("alert").style = "font-weight: 400;"
 							}
 						} else if (e.key.length == 1 && currGuess.length < 3 && e.key.match(/[A-Za-z]/)) {
 							currGuess.push(e.key.toLowerCase())
 							document.getElementById(`${count}, ${currGuess.length}`).innerHTML = e.key.toUpperCase()
 						}
+					} else if (e.key == "Enter" && !daily) {
+						divfill = "<h1 style=\"visibility: hidden;\" id=\"alert\">Not in word list!</h1><table style=\"font-size: 2em; margin-left: auto; margin-right: auto;\">"
+						for (let i = 0; i < daily ? 6 : totGuess; i++) {
+							divfill += `<tr><td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 1">&nbsp;</td><td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 2">&nbsp;</td><td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 3">&nbsp;</td></tr>`
+						}
+						divfill += "</table>"
+						document.getElementById("playarea").innerHTML = divfill
+						count = 0
+						word = wordlist[Math.floor(wordlist.length*Math.random())]
+						currGuess = []
+						done = false
 					}
 				})
 			}
