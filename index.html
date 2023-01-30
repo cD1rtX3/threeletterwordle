@@ -41,7 +41,11 @@
 				let totGuess = +document.getElementById("guessCount").value
 				let divfill = "<h1 style=\"visibility: hidden;\" id=\"alert\">Not in word list!</h1><table style=\"font-size: 2em; margin-left: auto; margin-right: auto;\">"
 				for (let i = 0; i < daily ? 6 : totGuess; i++) {
-					divfill += `<tr><td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 1">&nbsp;</td><td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 2">&nbsp;</td><td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 3">&nbsp;</td></tr>`
+					divfill += `<tr>`
+					divfill += `<td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 1">&nbsp;</td>`
+					divfill += `<td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 2">&nbsp;</td>`
+					divfill += `<td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 3">&nbsp;</td>`
+					divfill += `</tr>`
 				}
 				divfill += "</table>"
 				document.getElementById("playarea").innerHTML = divfill
