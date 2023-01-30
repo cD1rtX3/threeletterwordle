@@ -4,6 +4,13 @@
 		<meta charset="utf-8">
 		<link rel="icon" type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAEtJREFUOE9jZGBg+M9AAWAEGZCZmYnViOnTp4PFby1VwCqvFv2AYdQAaoUBBbEIiQWKDTA6a4TVjHPG58Di+OTBLhg1gAphQEk0AgC8jVgBalA6igAAAABJRU5ErkJggg==">
 		<title>3-Letter Wordle</title>
+		<style>
+			.box {
+				width: 2em;
+				border: 3px solid black;
+				font-family: sans-serif;
+			}
+		</style>
 		<script>
 			var playwords = [
 				"aah", "aal", "aas", "aba", "abs", "aby", "ace", "act", "add", "ado", "ads", "adz", "aff", "aft", "aga", "age", "ago", "ags", "aha", "ahi", "ahs", "aid", "ail", "aim", "ain", "air", "ais", "ait", "aji", "ala", "alb", "ale", "all", "alp", "als", "alt", "ama", "ami", "amp", "amu", "ana", "and", "ane", "ani", "ant", "any", "ape", "apo", "app", "apt", "arb", "arc", "are", "arf", "ark", "arm", "ars", "art", "ash", "ask", "asp", "ass", "ate", "att", "auk", "ava", "ave", "avo", "awa", "awe", "awl", "awn", "axe", "aye", "ays", "azo",
@@ -42,9 +49,9 @@
 				document.getElementById("playarea").innerHTML = "<h1 style=\"visibility: hidden;\" id=\"alert\">Not in word list!</h1><table style=\"font-size: 2em; margin-left: auto; margin-right: auto;\">"
 				for (let i = 0; i < daily ? 6 : totGuess; i++) {
 					document.getElementById("playarea").innerHTML += `<tr>`
-					document.getElementById("playarea").innerHTML += `<td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 1">&nbsp;</td>`
-					document.getElementById("playarea").innerHTML += `<td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 2">&nbsp;</td>`
-					document.getElementById("playarea").innerHTML += `<td style="width: 2em; border: 3px solid black; font-family: sans-serif;" id="${i}, 3">&nbsp;</td>`
+					document.getElementById("playarea").innerHTML += `<td class="box" id="${i}, 1">&nbsp;</td>`
+					document.getElementById("playarea").innerHTML += `<td class="box" id="${i}, 2">&nbsp;</td>`
+					document.getElementById("playarea").innerHTML += `<td class="box" id="${i}, 3">&nbsp;</td>`
 					document.getElementById("playarea").innerHTML += `</tr>`
 				}
 				document.getElementById("playarea").innerHTML += "</table>"
@@ -66,9 +73,9 @@
 							currGuess.pop()
 						} else if (e.key == "Enter") {
 							if (currGuess[0] + currGuess[1] + currGuess[2] == word) {
-								document.getElementById(`${count}, 1`).style = "width: 2em; border: 3px solid black; font-family: sans-serif; background-color: limegreen; color: white;"
-								document.getElementById(`${count}, 2`).style = "width: 2em; border: 3px solid black; font-family: sans-serif; background-color: limegreen; color: white;"
-								document.getElementById(`${count}, 3`).style = "width: 2em; border: 3px solid black; font-family: sans-serif; background-color: limegreen; color: white;"
+								document.getElementById(`${count}, 1`).style = "background-color: limegreen; color: white;"
+								document.getElementById(`${count}, 2`).style = "background-color: limegreen; color: white;"
+								document.getElementById(`${count}, 3`).style = "background-color: limegreen; color: white;"
 								// hehe line 69
 								document.getElementById("alert").innerHTML = response[count]
 								document.getElementById("alert").style = "color: black; font-weight: 400;"
